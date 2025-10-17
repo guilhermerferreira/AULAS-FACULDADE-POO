@@ -17,6 +17,7 @@ public class Biblioteca {
                 return true;
             }
         }
+        return false;
     }
 
     private boolean existeLivroComIsbn(String isbn){
@@ -24,8 +25,12 @@ public class Biblioteca {
             if(livro.getIsbn().equals(isbn)){
                 return true;
             }
-            
         }
+        return false;
+    }
+
+    public List<Livro> getAll(){
+        return this.Livros;
     }
 
 

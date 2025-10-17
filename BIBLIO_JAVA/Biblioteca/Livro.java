@@ -27,8 +27,20 @@ public class Livro {
         return isbn;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public String getEditora() {
+        return editora;
+    }
+
     public boolean isDisponivel(){
-        return this.isDisponivel();
+        return this.disponivel;
     }
 
     public boolean emprestar(){
