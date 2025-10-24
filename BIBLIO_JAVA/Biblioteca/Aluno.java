@@ -4,6 +4,12 @@ package Biblioteca;
     private String ra;
     private String curso;
 
+    public Aluno(int id, String nome, String email, String ra, String curso) {
+        super(id, nome, email);
+        this.ra = ra;
+        this.curso = curso;
+    }
+
     // Retorna a quantidade de livros que o aluno pode emprestar
     @Override
     public int getLimiteEmprestimo(){

@@ -15,6 +15,9 @@ public class SistemaBiblioteca {
         this.scanner = new Scanner(System.in);         
     }
 
+
+    //// CADASTRO AUTOR
+    
     public void cadastrarAutor(){
         int id = 0;
         String nome = null;
@@ -68,6 +71,8 @@ public class SistemaBiblioteca {
     ////////// ----------------------------------------- //////////////
 
 
+    /// CADASTRO LIVRO
+ 
     public void cadastrarLivro() {
         int id = 0;
         int ano = 0;
@@ -145,6 +150,113 @@ public class SistemaBiblioteca {
 
     }//Fim relatorioTodosLivros()
 
+
+      ////////// ----------------------------------------- //////////////
+      
+      //                  USUARIO                  //
+
+
+    public void CadastrarUsuario(){
+        int id = 0;
+        String nome = null;
+        String email = null;
+        int tipo;
+        String ra = null;
+        String curso = null;
+        String matricula = null;
+        String area = null;
+        String dpto = null;
+        Usuario novoUsuario = null;
+
+
+        System.out.println("\n--- CADASTRO DE NOVO USUARIO ---");
+
+        // Entrada ID
+        while (true){
+            System.out.print("ID do Usuario (apenas números): ");
+            if (scanner.hasNextInt()){
+                id = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } else {
+                System.out.println("ERRO: O Ano deve ser um número inteiro. Tente novamente.");
+                scanner.nextLine();
+            }
+        }
+
+        System.out.print("Nome: ");
+        nome = scanner.nextLine();
+
+        System.out.print("Email: ");
+        email = scanner.nextLine();
+
+        while (true){
+            System.out.println("Selecione o tipo ([1]Aluno [2]Professor [3]Funcionário) -> ");
+            if (scanner.hasNextInt()){
+                tipo = scanner.nextInt();
+                scanner.nextLine();
+                if (tipo == 1 || tipo == 2 || tipo == 3){
+                    break;
+                } else{
+                     System.out.println("ERRO: O tipo de Usuario esta incorreto. Tente novamente.");
+                    scanner.nextLine();
+                }
+            } else {
+                System.out.println("ERRO: O tipo deve ser um número inteiro. Tente novamente.");
+                scanner.nextLine();
+            }
+        }
+
+        if (tipo ==1 ){ // Aluno  
+            System.out.print("RA: ");
+            ra = scanner.nextLine();
+
+            System.out.print("Curso: ");
+            curso = scanner.nextLine();
+
+            novoUsuario = new Aluno(id, nome, email, ra, curso);
+
+        } else if (tipo == 2){ // Professor
+            System.out.print("Matricula: ");
+            matricula = scanner.nextLine();
+
+            System.out.print("Area: ");
+            area = scanner.nextLine();
+
+            novoUsuario = new Professor(id, nome, email, matricula, area);
+
+        } else if (tipo == 3){ // Funcionario
+            System.out.print("Matricula: ");
+            matricula = scanner.nextLine();
+
+            System.out.print("Departamento: ");
+            dpto = scanner.nextLine();
+
+            novoUsuario = new Funcionario(id, nome, email, matricula, dpto);
+
+        } else{
+            System.out.println("Opcao Invalida. Tente novamente.");
+        }
+
+        
+
+
+        try {
+            // Assume que este método está na Biblioteca
+            biblio.adicionarUsuario(novoUsuario); 
+            System.out.println("Usuario cadastrado com sucesso!");
+        } catch (IllegalArgumentException e) {
+            // Captura exceções (ex: ID Nome ou email duplicado)
+            System.err.println("Erro ao cadastrar Usuario: " + e.getMessage());
+        }
+
+
+    }
+
+
+      ////////// ----------------------------------------- //////////////
+    
+
     // Método Principal de Execução
     public void executar() {
         int opcao = 0;
@@ -203,7 +315,7 @@ public class SistemaBiblioteca {
                 cadastrarAutor();
                 break;
             case 3: //Cadastro de Usuário
-                System.out.println("Cadastro de Usuário em desenvolvimento...");
+                CadastrarUsuario();
                 break;
             case 4: //Emprestimo();
                 System.out.println("Empréstimo em desenvolvimento...");

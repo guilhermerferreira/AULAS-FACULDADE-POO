@@ -11,6 +11,10 @@ public class Biblioteca {
     private List<LivroAutor> LivroAutores = new ArrayList<>();
 
 
+    ////////// ----------------------------------------- //////////////
+
+    //                  LIVRO               //
+
     private boolean existeLivroComId(int id){
         for (Livro livro : Livros) {
             if(livro.getId() == id){
@@ -48,7 +52,8 @@ public class Biblioteca {
 
 
     ////////// ----------------------------------------- //////////////
-
+    
+    //                  AUTOR                //
 
      private boolean existeAutorComId(int id){
         for (Autor autor : Autores) {
@@ -84,6 +89,46 @@ public class Biblioteca {
 
         this.Autores.add(autor);
     }
+
+
+    ////////// ----------------------------------------- //////////////
+    
+    //                  USUARIO                //
+
+    private boolean existeUsuarioComId(int id){
+        for (Usuario usuario : Usuarios) {
+            if(usuario.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean existeUsuarioComNome(String nome){
+        for (Usuario usuario : Usuarios) {
+            if(usuario.getNome().equals(nome)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Usuario> getAllUsuarios(){
+        return this.Usuarios;
+    }
+
+
+    public void adicionarUsuario(Usuario usuario){
+        if (existeUsuarioComId(usuario.getId())){
+            throw new IllegalArgumentException("ID já Cadastrado!");
+        } 
+        if (existeUsuarioComNome(usuario.getNome())){
+            throw new IllegalArgumentException("Nome já Cadastrado!");
+        }
+
+        this.Usuarios.add(usuario);
+    }
+    
 
 }
     
