@@ -46,6 +46,49 @@ public class Biblioteca {
         this.Livros.add(livro);
     }
 
+
+    ////////// ----------------------------------------- //////////////
+
+
+     private boolean existeAutorComId(int id){
+        for (Autor autor : Autores) {
+            if(autor.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean existeAutorComNome(String nome){
+        for (Autor autor : Autores) {
+            if(autor.getNome().equals(nome)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Autor> getAllAutors(){
+        return this.Autores;
+    }
+
+
+   public void adicionarAutor(Autor autor){
+        // Fazer as consistencias de acordo com as Regras de Negocio
+        if (existeAutorComId(autor.getId())){
+            throw new IllegalArgumentException("ID já Cadastrado!");
+        }
+        if (existeAutorComNome(autor.getNome())){
+            throw new IllegalArgumentException("Nome já Cadastrado!");
+        }
+
+        this.Autores.add(autor);
+    }
+
 }
+    
+
+
+
 
 

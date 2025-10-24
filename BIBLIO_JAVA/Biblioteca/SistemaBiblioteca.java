@@ -1,4 +1,5 @@
-package Biblioteca;
+package Biblioteca; 
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -13,6 +14,58 @@ public class SistemaBiblioteca {
         this.biblio = new Biblioteca();
         this.scanner = new Scanner(System.in);         
     }
+
+    public void cadastrarAutor(){
+        int id = 0;
+        String nome = null;
+
+        System.out.println("\n --- CADASTRO NOVO AUTOR ---");
+
+        while(true){
+            System.out.println("ID do autor (apenas números)");
+            if (scanner.hasNextInt()){
+                id = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } else{
+                System.err.println("ERRO: O ID deve ser um número inteiro. Tente novamente.");
+                scanner.nextLine();
+            }
+        }
+
+        System.out.println("Nome do Autor: ");
+        nome = scanner.nextLine();
+
+        Autor novoAutor = new Autor(id, nome);
+
+        try {
+            // Assume que este método está na Biblioteca
+            biblio.adicionarAutor(novoAutor); 
+            System.out.println("Autor cadastrado com sucesso!");
+        } catch (IllegalArgumentException e) {
+            // Captura exceções (ex: ID ou nome duplicado)
+            System.err.println("Erro ao cadastrar autor: " + e.getMessage());
+        }
+    }
+
+    public void relatorioTodosAutores(){
+        List<Autor> listaAutores = biblio.getAllAutors();
+
+        System.out.println("\n---- RELATÓRIO TODOS OS AUTORES ----");
+        if (listaAutores.size()>0){
+            //4 35 4 20
+            System.out.println("Id   Nome                              ");
+        }else{
+            System.out.println("Nenhum Autor Cadastrado!");
+            return;
+        }
+        for (Autor autor : listaAutores) {
+            System.out.printf("%-4d %-35s ",autor.getId(), autor.getNome());
+            System.err.println();
+        }
+    }
+
+    ////////// ----------------------------------------- //////////////
 
 
     public void cadastrarLivro() {
@@ -133,6 +186,7 @@ public class SistemaBiblioteca {
         System.out.println(" [4] Empréstimo");
         System.out.println(" [5] Devolução");
         System.out.println(" [6] Relatório Todos Livros");
+        System.out.println(" [7] Relatório Todos Autores");
         System.out.println("---------------------------------------------");
         System.out.println(" [0] Sair                      ");
         System.out.println("=============================================");
@@ -146,7 +200,7 @@ public class SistemaBiblioteca {
                 cadastrarLivro();
                 break;
             case 2: //Cadastro de Autor
-                System.out.println("Cadastro de Autor em desenvolvimento...");
+                cadastrarAutor();
                 break;
             case 3: //Cadastro de Usuário
                 System.out.println("Cadastro de Usuário em desenvolvimento...");
@@ -159,7 +213,10 @@ public class SistemaBiblioteca {
                 break;
             case 6: //Relatóiro todos os Livros;
                 relatorioTodosLivros();
-                break;                
+                break;        
+            case 7: // Relatorio todos autores;
+                relatorioTodosAutores();
+                break;        
             case 0: //Sair
                 break;
             default:
@@ -175,3 +232,4 @@ public class SistemaBiblioteca {
         sistema.executar();
     }
 }
+
