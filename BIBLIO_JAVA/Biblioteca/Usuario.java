@@ -11,6 +11,8 @@ abstract public class Usuario {
 
     // Retorna a quantidade de dias que o Usuario tem para ficar com o Livro
     public abstract int getPrazoEmprestimo();
+
+    public abstract String getTipoUsuario();
     
     public Usuario(int id, String nome, String email){
         this.id = id;
@@ -30,4 +32,5 @@ abstract public class Usuario {
     public String getEmail() {
         return email;
     }
+
 }

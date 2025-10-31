@@ -11,6 +11,13 @@ public class Professor extends Usuario {
         this.area = area;
     }
 
+
+    // Retorna o tipo do usuario como professor
+    @Override
+    public String getTipoUsuario(){
+        return "Professor";
+    }
+
     // Retorna a quantidade de livros que o aluno pode emprestar
     @Override
     public int getLimiteEmprestimo(){
@@ -21,6 +28,14 @@ public class Professor extends Usuario {
     @Override
     public int getPrazoEmprestimo(){
         return 5;
+    }
+
+    public String getMatricula(){
+        return this.matricula;
+    }
+
+    public String getArea(){
+        return this.area;
     }
     
 }

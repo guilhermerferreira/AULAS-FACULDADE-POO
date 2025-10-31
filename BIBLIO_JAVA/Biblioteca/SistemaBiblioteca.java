@@ -23,7 +23,7 @@ public class SistemaBiblioteca {
         String nome = null;
 
         System.out.println("\n --- CADASTRO NOVO AUTOR ---");
-
+        //Entrada do ID (tratamento básico de erro para int)
         while(true){
             System.out.println("ID do autor (apenas números)");
             if (scanner.hasNextInt()){
@@ -50,7 +50,7 @@ public class SistemaBiblioteca {
             System.err.println("Erro ao cadastrar autor: " + e.getMessage());
         }
     }
-
+        // Relatorio de todos os autores
     public void relatorioTodosAutores(){
         List<Autor> listaAutores = biblio.getAllAutors();
 
@@ -132,7 +132,7 @@ public class SistemaBiblioteca {
             System.err.println("Erro ao cadastrar livro: " + e.getMessage());
         }
     }    
-
+    // Relatorio de todos os livros
     public void relatorioTodosLivros(){
         List<Livro> listaLivros = biblio.getAll();
 
@@ -151,10 +151,10 @@ public class SistemaBiblioteca {
     }//Fim relatorioTodosLivros()
 
 
-      ////////// ----------------------------------------- //////////////
+    ////////// ----------------------------------------- //////////////
       
-      //                  USUARIO                  //
-
+    //  CADASTRO USUARIO                                             //
+ 
 
     public void CadastrarUsuario(){
         int id = 0;
@@ -171,27 +171,27 @@ public class SistemaBiblioteca {
 
         System.out.println("\n--- CADASTRO DE NOVO USUARIO ---");
 
-        // Entrada ID
+        //Entrada do ID (tratamento básico de erro para int)
         while (true){
             System.out.print("ID do Usuario (apenas números): ");
             if (scanner.hasNextInt()){
                 id = scanner.nextInt();
-                scanner.nextLine();
+                scanner.nextLine(); // Limpa o buffer
                 break;
             } else {
                 System.out.println("ERRO: O Ano deve ser um número inteiro. Tente novamente.");
                 scanner.nextLine();
             }
         }
-
+        // Entrada do Nome
         System.out.print("Nome: ");
         nome = scanner.nextLine();
-
+        // Entrada do email
         System.out.print("Email: ");
         email = scanner.nextLine();
 
         while (true){
-            System.out.println("Selecione o tipo ([1]Aluno [2]Professor [3]Funcionário) -> ");
+            System.out.printf("Selecione o tipo ([1]Aluno [2]Professor [3]Funcionário) -> ");
             if (scanner.hasNextInt()){
                 tipo = scanner.nextInt();
                 scanner.nextLine();
@@ -213,7 +213,7 @@ public class SistemaBiblioteca {
 
             System.out.print("Curso: ");
             curso = scanner.nextLine();
-
+             // Instacia o objeto usuario como aluno
             novoUsuario = new Aluno(id, nome, email, ra, curso);
 
         } else if (tipo == 2){ // Professor
@@ -222,7 +222,7 @@ public class SistemaBiblioteca {
 
             System.out.print("Area: ");
             area = scanner.nextLine();
-
+             // Instacia o objeto usuario como professor
             novoUsuario = new Professor(id, nome, email, matricula, area);
 
         } else if (tipo == 3){ // Funcionario
@@ -231,15 +231,12 @@ public class SistemaBiblioteca {
 
             System.out.print("Departamento: ");
             dpto = scanner.nextLine();
-
+            // Instacia o objeto usuario como funcionario
             novoUsuario = new Funcionario(id, nome, email, matricula, dpto);
 
         } else{
             System.out.println("Opcao Invalida. Tente novamente.");
         }
-
-        
-
 
         try {
             // Assume que este método está na Biblioteca
@@ -249,9 +246,36 @@ public class SistemaBiblioteca {
             // Captura exceções (ex: ID Nome ou email duplicado)
             System.err.println("Erro ao cadastrar Usuario: " + e.getMessage());
         }
-
-
     }
+    public void relatorioTodosUsuarios(){
+        List<Usuario> listaUsuarios = biblio.getAllUsuarios();
+
+        System.out.println("\n---- RELATÓRIO TODOS OS LIVROS ----");
+        if (listaUsuarios.size() > 0){       // 4 35 25 //
+            System.out.println("Id   Nome                         Email                        Ra/Matricula/dpto/Area "); 
+        }
+        else{
+            System.out.println("Nenhum Usuario cadastrado!");
+            return;
+        }
+        for (Usuario usuario : listaUsuarios){
+            System.out.printf("%-4d %-35s %-20s", usuario.getId(), usuario.getNome(), usuario.getEmail());
+            if (usuario.getTipoUsuario().equals("Aluno")){
+                Aluno aluno = (Aluno) usuario;
+                System.out.printf("%-12s %s%n", aluno.getRa(), aluno.getCurso());
+            }
+            if (usuario.getTipoUsuario().equals("Funcionario")){
+                Funcionario funcionario = (Funcionario) usuario;
+                System.out.printf("%-12s %s%n", funcionario.getMatricula(), funcionario.getdpto());
+            }
+            if (usuario.getTipoUsuario().equals("Professor")){
+                Professor professor = (Professor) usuario;
+                System.out.printf("%-12s %s%n", professor.getMatricula(), professor.getArea());
+            }
+            }
+        
+        }
+    
 
 
       ////////// ----------------------------------------- //////////////
@@ -299,6 +323,7 @@ public class SistemaBiblioteca {
         System.out.println(" [5] Devolução");
         System.out.println(" [6] Relatório Todos Livros");
         System.out.println(" [7] Relatório Todos Autores");
+        System.out.println(" [8] Relatório Todos Usuários");
         System.out.println("---------------------------------------------");
         System.out.println(" [0] Sair                      ");
         System.out.println("=============================================");
@@ -328,6 +353,9 @@ public class SistemaBiblioteca {
                 break;        
             case 7: // Relatorio todos autores;
                 relatorioTodosAutores();
+                break;        
+            case 8: // Relatorio todos autores;
+                relatorioTodosUsuarios();
                 break;        
             case 0: //Sair
                 break;

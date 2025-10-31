@@ -10,6 +10,13 @@ public class Funcionario extends Usuario {
         this.dpto = dpto;
     }
 
+
+    // Retorna o tipo do usuario como funcionario
+    @Override
+    public String getTipoUsuario(){
+        return "Funcionario";
+    }
+
     // Retorna a quantidade de livros que o aluno pode emprestar
     @Override
     public int getLimiteEmprestimo(){
@@ -20,5 +27,13 @@ public class Funcionario extends Usuario {
     @Override
     public int getPrazoEmprestimo(){
         return 4;
+    }
+
+    public String getMatricula(){
+        return this.matricula;
+    }
+
+    public String getdpto(){
+        return this.dpto;
     }
 }

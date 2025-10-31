@@ -9,6 +9,11 @@ package Biblioteca;
         this.ra = ra;
         this.curso = curso;
     }
+    // Retorna o tipo do usuario como aluno
+    @Override
+    public String getTipoUsuario(){
+        return "Aluno";
+    }
 
     // Retorna a quantidade de livros que o aluno pode emprestar
     @Override
@@ -21,4 +26,13 @@ package Biblioteca;
     public int getPrazoEmprestimo(){
         return 3;
     }
+
+    public String getRa(){
+        return this.ra;
+    }
+
+    public String getCurso(){
+        return this.curso;
+    }
+
 }
