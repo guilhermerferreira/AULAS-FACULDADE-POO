@@ -25,7 +25,7 @@ public class SistemaBiblioteca {
         System.out.println("\n --- CADASTRO NOVO AUTOR ---");
         //Entrada do ID (tratamento básico de erro para int)
         while(true){
-            System.out.println("ID do autor (apenas números)");
+            System.out.printf("ID do autor (apenas números) -> ");
             if (scanner.hasNextInt()){
                 id = scanner.nextInt();
                 scanner.nextLine();
@@ -36,7 +36,7 @@ public class SistemaBiblioteca {
             }
         }
 
-        System.out.println("Nome do Autor: ");
+        System.out.printf("Nome do Autor: ");
         nome = scanner.nextLine();
 
         Autor novoAutor = new Autor(id, nome);
@@ -275,7 +275,56 @@ public class SistemaBiblioteca {
             }
         
         }
-    
+
+       ////////// ----------------------------------------- //////////////
+       //                   RELACIONAR LIVRO AUTOR                      //
+
+       public void RelacionarLivroAutor(){
+        int idLivro = 0;
+        int idAutor = 0;
+
+        System.out.println("\n--- RELAÇÃO LIVRO AUTOR ---");
+
+        System.out.printf("Digite o ID do livro -> ");
+        while (true) {
+            if (scanner.hasNextInt()){
+                idLivro = scanner.nextInt();
+                scanner.nextLine(); // Limpa o buffer
+                break;
+            } else {
+                System.out.println("ERRO: O ID deve ser um número inteiro. Tente novamente.");
+                scanner.nextLine();
+            }
+        }
+        // Localizando o Livro a partir do id
+        Livro livro = biblio.localizarLivro(idLivro);
+        if (livro == null){
+            System.out.println("Livro não encontrado!");
+            return;
+        }
+
+          System.out.printf("Digite o ID do autor -> ");
+        while (true) {
+            if (scanner.hasNextInt()){
+                idAutor = scanner.nextInt();
+                scanner.nextLine(); // Limpa o buffer
+                break;
+            } else {
+                System.out.println("ERRO: O ID deve ser um número inteiro. Tente novamente.");
+                scanner.nextLine();
+            }
+        }
+
+        // Localizando o Autor a partir do id
+        Autor autor = biblio.localizarAutor(idAutor);
+        if (autor == null){
+            System.out.println("Autor não encontrado!");
+            return;
+        }
+
+        
+    }
+
 
 
       ////////// ----------------------------------------- //////////////
@@ -321,9 +370,10 @@ public class SistemaBiblioteca {
         System.out.println(" [3] Cadastrar Usuário");
         System.out.println(" [4] Empréstimo");
         System.out.println(" [5] Devolução");
-        System.out.println(" [6] Relatório Todos Livros");
-        System.out.println(" [7] Relatório Todos Autores");
-        System.out.println(" [8] Relatório Todos Usuários");
+        System.out.println(" [6] Relacionar Livro Autor");
+        System.out.println(" [7] Relatório Todos Livros");
+        System.out.println(" [8] Relatório Todos Autores");
+        System.out.println(" [9] Relatório Todos Usuários");
         System.out.println("---------------------------------------------");
         System.out.println(" [0] Sair                      ");
         System.out.println("=============================================");
@@ -348,13 +398,16 @@ public class SistemaBiblioteca {
             case 5: //Devolucao();
                 System.out.println("Devolução em desenvolvimento...");
                 break;
-            case 6: //Relatóiro todos os Livros;
+            case 6: //Devolucao();
+                RelacionarLivroAutor();
+                break;
+            case 7: //Relatóiro todos os Livros;
                 relatorioTodosLivros();
                 break;        
-            case 7: // Relatorio todos autores;
+            case 8: // Relatorio todos autores;
                 relatorioTodosAutores();
                 break;        
-            case 8: // Relatorio todos autores;
+            case 9: // Relatorio todos autores;
                 relatorioTodosUsuarios();
                 break;        
             case 0: //Sair

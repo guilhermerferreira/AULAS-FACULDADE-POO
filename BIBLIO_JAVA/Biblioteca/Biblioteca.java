@@ -128,6 +128,28 @@ public class Biblioteca {
 
         this.Usuarios.add(usuario);
     }
+
+    // LIVRO AUTOR
+
+    // LOCALIZA O ID DO LIVRO
+    public Livro localizarLivro(int idProcurado){
+        for (Livro livro : Livros){
+            if(livro.getId() == idProcurado){
+                return livro;
+            }
+        }
+        return null;
+    }
+
+    // LOCALIZA O ID DO AUTOR
+    public Autor localizarAutor(int idProcurado){
+        for(Autor autor : Autores){
+            if(autor.getId() == idProcurado){
+                return autor;
+            }
+        }
+        return null;
+    }
     
 
 }
