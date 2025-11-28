@@ -6,11 +6,10 @@ public class Livro {
     private int ano;
     private String editora;
     private String isbn;
-    private boolean disponivel;
-
+    private boolean disponivel; 
     
-
-    public Livro(int id, String titulo, int ano, String editora, String isbn) {
+    //Construtor
+    public Livro(int id, String titulo, int ano, String editora, String isbn){
         this.id = id;
         this.titulo = titulo;
         this.ano = ano;
@@ -19,12 +18,8 @@ public class Livro {
         this.disponivel = true;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getIsbn() {
-        return isbn;
+    public int getId(){
+        return this.id;
     }
 
     public String getTitulo() {
@@ -38,26 +33,33 @@ public class Livro {
     public String getEditora() {
         return editora;
     }
-
+    public String getIsbn(){
+        return this.isbn;
+    }
+    
+    //Verifica a disponibilidade do Livro
     public boolean isDisponivel(){
         return this.disponivel;
-    }
+    }//Fim isDisponivel()
 
+    //Altera a disponibilidade para false (Emprestado)
     public boolean emprestar(){
         if (this.isDisponivel()){
-            this.disponivel = false; // Altera a disponibilidade para false
+            this.disponivel = false;
             return true;
-        }else{ // Livro ja emprestado
-            return false; // Melhora gerando um exception
+        }else{  //Livro já está emprestado!
+            return false; //Aqui melhorar gerando uma exception
         }
-    } // Fim de emprestar
+    }//Fim emprestar()
 
+    //Altera a disponibilidade para true (diponível)
     public boolean devolver(){
         if (!this.isDisponivel()){
             this.disponivel = true;
             return true;
         }else{
-            return false;
+            return false; //Aqui poderia gerar um exception
         }
-    } // Fim devolver
+    }//Fim devolver()
+
 }

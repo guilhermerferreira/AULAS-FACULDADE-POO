@@ -4,11 +4,15 @@ public class LivroAutor {
     private Livro livro;
     private Autor autor;
 
-    public Livro getIdLivro(){
+    public LivroAutor(Livro livro, Autor autor) {
+        this.livro = livro;
+        this.autor = autor;
+    }
+    public Livro getLivro(){
         return this.livro;
     }
-
-    public Autor getIdAutor(){
+    public Autor getAutor(){
         return this.autor;
     }
+
 }

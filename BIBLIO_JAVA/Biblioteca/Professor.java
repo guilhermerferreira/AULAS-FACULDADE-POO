@@ -3,39 +3,36 @@ package Biblioteca;
 public class Professor extends Usuario {
     private String matricula;
     private String area;
-    
-    
-    public Professor(int id, String nome, String email, String matricula, String area) {
+
+    public Professor(String matricula, String area, int id, String nome, String email) {
         super(id, nome, email);
         this.matricula = matricula;
-        this.area = area;
+        this.area = area;        
+    }    
+
+    public String getMatricula() {
+        return matricula;
     }
 
+    public String getArea() {
+        return area;
+    }
 
-    // Retorna o tipo do usuario como professor
     @Override
-    public String getTipoUsuario(){
+    public String getTipoUsuario() {
         return "Professor";
-    }
+    }    
 
-    // Retorna a quantidade de livros que o aluno pode emprestar
+    //Retorna a qtde de Livros que o Usuario pode emprestar
     @Override
-    public int getLimiteEmprestimo(){
+    public int getLimiteLivros(){
         return 5;
     }
 
-    // Retorna a qtd de Dias que o Usuario pode ficar com o Livro
+    //Retorna a qtde de Dias (prazo) que o livro pode ficar com o Usuário
     @Override
     public int getPrazoEmprestimo(){
-        return 5;
+        return 7;
     }
 
-    public String getMatricula(){
-        return this.matricula;
-    }
-
-    public String getArea(){
-        return this.area;
-    }
-    
 }

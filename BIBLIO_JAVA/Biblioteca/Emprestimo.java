@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+
 public class Emprestimo {
     private int id;
     private Livro livro;
@@ -11,13 +12,47 @@ public class Emprestimo {
     private LocalDate dataEmprestimo;
     private LocalDate dataDevolucao;
     
-    // Construtor
     public Emprestimo(int id, Livro livro, Usuario usuario, LocalDate dataEmprestimo) {
         this.id = id;
         this.livro = livro;
         this.usuario = usuario;
         this.dataEmprestimo = dataEmprestimo;
+        this.dataDevolucao = null;
     }
+
+    public int getId(){
+        return this.id;
+    }
+    
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public LocalDate getDataEmprestimo() {
+        return dataEmprestimo;
+    }
+
+    public LocalDate getDataDevolucao() {
+        return dataDevolucao;
+    }    
+
+    public String getStrDataEmprestimo() {
+        DateTimeFormatter formataData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return formataData.format(dataEmprestimo);
+    }
+
+    public String getStrDataDevolucao() {
+        DateTimeFormatter formataData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if (this.dataDevolucao!=null){
+            return formataData.format(dataDevolucao);
+        }else{
+            return "";
+        }
+    }    
 
     public boolean registrarDevolucao(LocalDate data){
         //Consistência se a data de devolução é igual ou maior que a 
@@ -54,7 +89,8 @@ public class Emprestimo {
                 resp = "Ativo - Retirado em: "+formataData.format(this.dataEmprestimo)+", previsto para ser devolvido em: "+formataData.format(dataPrevistaDevolucao);
             }
         }
-
+ 
         return resp;
     }
+    
 }
