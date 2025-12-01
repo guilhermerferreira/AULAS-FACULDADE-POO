@@ -465,6 +465,81 @@ public class SistemaBiblioteca {
 
     }//Fim relatorioTodosEmprestimos()
 
+    public void relatoriosEmAtraso(){
+        List <Emprestimo> listaEmprestimos = biblio.getAllEmprestimos();
+
+
+        System.out.println("\n---- RELATÓRIO TODOS OS Empréstimos EM ATRASO ----");
+        if (!listaEmprestimos.isEmpty()){
+            //3 25 20 3
+            System.out.println("ID  L I V R O                 U S U Á R I O        Empréstimo    Atraso");
+        }else{
+            System.out.println("Nenhum Empréstimo Encontrado!");
+            return;
+        }        
+        boolean atrasoencontrado = false;
+        for (Emprestimo emprestimo : listaEmprestimos){
+            long dias = ChronoUnit.DAYS.between(emprestimo.getDataEmprestimo(), LocalDate.now());
+            Usuario usuario = emprestimo.getUsuario();
+
+            // Verifica o atraso
+            if (dias > usuario.getPrazoEmprestimo()){
+                atrasoencontrado = true;
+
+                Livro livro = emprestimo.getLivro();
+                long atraso = dias - usuario.getPrazoEmprestimo(); // atraso real
+
+                System.out.printf(
+                "%-3d %d-%-23s %d-%-18s %-10s %-2s %-1s dias%n\n",
+                emprestimo.getId(),livro.getId(), livro.getTitulo(),usuario.getId(), usuario.getNome(),emprestimo.getStrDataEmprestimo(),emprestimo.getStrDataDevolucao(),atraso,"dias");
+
+            }
+        }
+        if (!atrasoencontrado){
+            System.out.println("Nenhum empréstimo em atraso encontrado!");
+        }
+    }
+    
+    public void relatoriosDoUsuario(){
+        List <Emprestimo> listaEmprestimos = biblio.getAllEmprestimos();
+
+        // Entrada ID do usuario 
+        System.out.print("Digite o ID do usuario: ");
+        int idUsuario = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("\n---- RELATÓRIO TODOS OS Empréstimos ----");
+        if (!listaEmprestimos.isEmpty()){
+            //3 25 20 10 9
+            System.out.println("ID  L I V R O                 U S U Á R I O        Empréstimo Devolução Observação");
+        } else{
+            System.out.println("Nenhum Empréstimo Encontrado!");
+        }
+        boolean encontrou = false;
+        for (Emprestimo emprestimo : listaEmprestimos){
+            Livro livro = emprestimo.getLivro();
+            Usuario usuario = emprestimo.getUsuario();
+            String status = null;
+
+            if (idUsuario == emprestimo.getUsuario().getId()) {
+                encontrou = true;
+
+                long dias = ChronoUnit.DAYS.between(emprestimo.getDataEmprestimo(), LocalDate.now());
+                if (dias <= usuario.getPrazoEmprestimo()) {
+                    status = "No Prazo!";
+                } else {
+                    status = "Atrasado!";
+                }
+                System.out.printf("%-3d %d-%-23s %d-%-18s %-10s %-10s %-10s\n", emprestimo.getId(),
+                        livro.getId(), livro.getTitulo(), usuario.getId(), usuario.getNome(),
+                        emprestimo.getStrDataEmprestimo(), emprestimo.getStrDataDevolucao(), status);
+            }
+
+        }
+        if (!encontrou){
+            System.out.println("Este usuario nao possui nenhum emprestimo!");
+        }
+    }
+    
     public void devolucao(){
         int idlivro = 0;
         Emprestimo emprestimo = null;
@@ -518,6 +593,110 @@ public class SistemaBiblioteca {
 
     }//Fim devolucao()
 
+    public void consultarLivro() {  
+        List<Emprestimo> listaEmprestimos = biblio.getAllEmprestimos();
+        boolean encontrou = false;
+
+        // Entrada ID do usuario
+        System.out.print("Digite o ID do Livro: ");
+        int idLivro = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("\n---- CONSULTA dos STATUS do Livro ----");
+        if (!listaEmprestimos.isEmpty()){
+            //3 21 28 10 13 10
+            System.out.println("ID  LIVRO                   USUÁRIO              Empréstimo   Devolução   Status");
+        } else{
+            System.out.println("Nenhum Empréstimo Encontrado!");
+        }
+        for (Emprestimo emprestimo : listaEmprestimos) {
+            Livro livro = emprestimo.getLivro();
+            Usuario usuario = emprestimo.getUsuario();
+
+            if (livro.getId() == idLivro) {
+                encontrou = true;
+                String status = null;
+                long dias = ChronoUnit.DAYS.between(emprestimo.getDataEmprestimo(), LocalDate.now());
+
+                if (dias <= usuario.getPrazoEmprestimo()) {
+                    status = "No Prazo!";
+                } else {
+                    status = "Atrasado!";
+                }
+               System.out.printf("%-3d %d-%-21s %d-%-18s %-10s %-13s %-10s\n",emprestimo.getId(),
+                livro.getId(),livro.getTitulo(),usuario.getId(),usuario.getNome(),
+                emprestimo.getStrDataEmprestimo(),emprestimo.getStrDataDevolucao(), status);
+                
+            }
+
+        }
+        if (!encontrou) {
+            System.out.println("Este livro nao possui nenhum emprestimo!");
+        }
+    }
+
+    public void consultarUsuario() {
+        List<Emprestimo> listaEmprestimos = biblio.getAllEmprestimos();
+        List<Usuario> listaUsuarios = biblio.getAllUsuarios();
+
+        Usuario usuarioEncontrado = null;
+        // Entrada ID do usuario
+        System.out.print("Digite o ID do Usuario: ");
+        int idUsuario = Integer.parseInt(scanner.nextLine());
+
+        // Encontra o Usuario
+        for(Usuario usuario : listaUsuarios){
+            if (usuario.getId() == idUsuario){
+                usuarioEncontrado = usuario;
+                break;
+            }
+        }
+        if (usuarioEncontrado == null){
+            System.out.println("Nenhum Usuario com este ID encontrado!");
+        }
+
+        System.out.println("\n---- DADOS DO USUÁRIO ----");
+        System.out.println("ID: " + usuarioEncontrado.getId());
+        System.out.println("Nome: " + usuarioEncontrado.getNome());
+        System.out.println("Tipo: " + usuarioEncontrado.getTipoUsuario());
+        System.out.println("Prazo: " + usuarioEncontrado.getPrazoEmprestimo() + " dias");
+
+        System.out.println("\n---- EMPRESTIMOS ATIVOS DO USUÁRIO ----");
+        boolean emprestimoAtivo = false;
+
+        System.out.println("ID   L I V R O                 U S U Á R I O        Empréstimo Devolução Observação");
+        for (Emprestimo emprestimo : listaEmprestimos){
+            if(emprestimo.getUsuario().getId() == idUsuario){
+                boolean ativo = (emprestimo.getDataDevolucao() == null);
+
+                if (ativo) {
+                    emprestimoAtivo = true;
+                    String status = null;
+
+                    long dias = ChronoUnit.DAYS.between(emprestimo.getDataEmprestimo(), LocalDate.now());
+                    if (dias <= usuarioEncontrado.getPrazoEmprestimo()) {
+                        status = "No Prazo!";
+                    } else {
+                        status = "Atrasado!";
+                    }
+                    System.out.printf("%-4d %-25s %s-%-18s %-5s %-10s %-12s%n", 
+                            emprestimo.getLivro().getId(),
+                            emprestimo.getLivro().getTitulo(),
+                            usuarioEncontrado.getId(),
+                            usuarioEncontrado.getNome(),
+                            emprestimo.getStrDataEmprestimo(),
+                            emprestimo.getStrDataDevolucao(),   
+                            status);
+                }
+            }
+        }
+        if (!emprestimoAtivo) {
+        System.out.println("Este usuário não possui nenhum empréstimo ativo!");
+        }
+    }
+    
+
+    
+
     // Método Principal de Execução
     public void executar() {
         int opcao = 0;
@@ -536,7 +715,8 @@ public class SistemaBiblioteca {
         biblio.adicionarUsuario(new Aluno("202555999","Sistemas", 1,"Olivaldo Pereira","oli@valdo.com"));
         biblio.adicionarUsuario(new Professor("1139","Informática", 2,"Jandrovir Fonseca","jandro@fon.com"));
         biblio.adicionarUsuario(new Funcionario("5543","Tesouraria", 3,"Ana Barrilha","ana@barri.com"));
-        
+        //Adicionar Emprestimo Atrasado:
+        biblio.adicionarEmprestimo(new Emprestimo(1,biblio.getLivroById(1),biblio.getUsuarioById(1), LocalDate.now().minusDays(20)));
 
         // Loop principal: Mantém o menu rodando até que a opção Sair seja escolhida
         do {
@@ -575,6 +755,10 @@ public class SistemaBiblioteca {
         System.out.println(" [9] Relatório Todos Usuários");
         System.out.println(" [10] Relatório Todos Relacionamentos");
         System.out.println(" [11] Relatório Todos os Empréstimos");
+        System.out.println(" [12] Relatório Empréstimos em Atraso");
+        System.out.println(" [13] Relatório - Histórico de Empréstimos de um Usuário");
+        System.out.println(" [14] Consultar Status do Livro");
+        System.out.println(" [15] Consultar Dados Usuario");
         System.out.println("---------------------------------------------");
         System.out.println(" [0] Sair                      ");
         System.out.println("=============================================");
@@ -628,6 +812,18 @@ public class SistemaBiblioteca {
                 break;                                
             case 11: //Relatóiro todos Empréstimos
                 relatorioTodosEmprestimos();
+                break;
+            case 12: //Relatóiro todos Empréstimos em Atraso
+                relatoriosEmAtraso();
+                break;
+            case 13: //Relatóiro todos Empréstimos do Usuario
+                relatoriosDoUsuario();
+                break;
+            case 14: //Colsutar status do Livrp
+                consultarLivro();
+                break;
+            case 15: //Colsutar dados do Usuario
+                consultarUsuario();
                 break;
 
                 case 0: //Sair
